@@ -1,5 +1,7 @@
 const heading = document.createElement("h2");
-heading.textContent = "Sign up" || "Login";
+const headings = ["Sign up", "Login"];
+heading.style.margin = "5px";
+heading.textContent = headings[0];
 heading.style.textAlign = "center";
 
 const labels = ["Username", "Email", "Password"];
@@ -37,15 +39,60 @@ function createLabel(index) {
   return label;
 }
 
+form.appendChild(heading);
+
 for (let i = 0; i < labels.length; i++) {
   form.appendChild(createLabel(i));
   form.appendChild(createInput(i));
 }
 
+const textContents = [
+  "Already have an account? Login",
+  "Don't have an account? Sign up",
+];
+
+const toggleButton = document.createElement("button");
+toggleButton.textContent = textContents[0];
+toggleButton.type = "button";
+toggleButton.classList.add("toggleButton");
+toggleButton.addEventListener("click", handleToggle);
+
+function handleToggle(event) {
+  event.preventDefault();
+  const inputs = document.querySelectorAll("input");
+  const labels = document.querySelectorAll("label");
+
+  if (heading.textContent == headings[0]) {
+    inputs.forEach((input) => {
+      if (input.name === "username") {
+        input.style.display = "none";
+      }
+    });
+    labels.forEach((label) => {
+      if (label.textContent === "Username") {
+        label.style.display = "none";
+      }
+    });
+    toggleButton.textContent = textContents[1];
+    heading.textContent = headings[1];
+  } else {
+    inputs.forEach((input) => {
+      if (input.name === "username") {
+        input.style.display = "flex";
+      }
+    });
+    labels.forEach((label) => {
+      if (label.textContent === "Username") {
+        label.style.display = "flex";
+      }
+    });
+    toggleButton.textContent = textContents[0];
+    heading.textContent = headings[0];
+  }
+}
 let obj = {};
 
 function handleSubmit(event) {
-//   event.preventDefault();
   const inputs = document.querySelectorAll("input");
   inputs.forEach((input) => {
     obj[input.name] = input.value;
@@ -63,7 +110,7 @@ function handleSubmit(event) {
     .then((res) => {
       return res.json();
     })
-    .then((data) => console.log(data));
+    .then((data) => renderRow(data.user));
 }
 
 const submitButton = document.createElement("button");
@@ -72,6 +119,7 @@ submitButton.textContent = "Submit";
 submitButton.classList.add("button");
 
 form.appendChild(submitButton);
+form.appendChild(toggleButton);
 document.body.appendChild(form);
 
 function getAllUsers() {
@@ -83,7 +131,7 @@ function getAllUsers() {
   })
     .then((res) => res.json())
     .then((data) => {
-      renderTable(data);
+      createTbody(data);
     });
 }
 
@@ -111,27 +159,26 @@ function createThead() {
   table.appendChild(thead);
 }
 
+function renderRow(user) {
+  const tr = document.createElement("tr");
+  tr.style.border = "1px solid black";
+
+  Object.values(user).forEach((value) => {
+    let td = document.createElement("td");
+    td.style.border = "1px solid black";
+    td.textContent = value;
+    tr.appendChild(td);
+  });
+
+  tbody.appendChild(tr);
+}
+
 function createTbody(users) {
   users.forEach((user) => {
-    const tr = document.createElement("tr");
-    tr.style.border = "1px solid black";
-
-    Object.values(user).forEach((value) => {
-      let td = document.createElement("td");
-      td.style.border = "1px solid black";
-
-      td.textContent = value;
-      tr.appendChild(td);
-    });
-
-    tbody.appendChild(tr);
+    renderRow(user);
   });
   table.appendChild(tbody);
 }
 
 document.body.appendChild(table);
-
-function renderTable(users) {
-  createThead();
-  createTbody(users);
-}
+createThead();
