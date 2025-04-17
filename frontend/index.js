@@ -57,12 +57,14 @@ toggleButton.type = "button";
 toggleButton.classList.add("toggleButton");
 toggleButton.addEventListener("click", handleToggle);
 
+let isLogin = false;
 function handleToggle(event) {
   event.preventDefault();
+  isLogin = !isLogin;
   const inputs = document.querySelectorAll("input");
   const labels = document.querySelectorAll("label");
 
-  if (heading.textContent == headings[0]) {
+  if (isLogin) {
     inputs.forEach((input) => {
       if (input.name === "username") {
         input.style.display = "none";
@@ -75,6 +77,7 @@ function handleToggle(event) {
     });
     toggleButton.textContent = textContents[1];
     heading.textContent = headings[1];
+    submitButton.textContent = headings[1];
   } else {
     inputs.forEach((input) => {
       if (input.name === "username") {
@@ -88,17 +91,19 @@ function handleToggle(event) {
     });
     toggleButton.textContent = textContents[0];
     heading.textContent = headings[0];
+    submitButton.textContent = headings[0];
   }
 }
-let obj = {};
 
-function handleSubmit(event) {
+let obj = {};
+function handleSignup() {
   const inputs = document.querySelectorAll("input");
   inputs.forEach((input) => {
     obj[input.name] = input.value;
   });
   if (obj.username === "" || obj.email === "" || obj.password === "") {
     alert("Username, password and email are required!");
+    return;
   }
   fetch("http://localhost:3000/api/register", {
     method: "POST",
@@ -111,11 +116,59 @@ function handleSubmit(event) {
       return res.json();
     })
     .then((data) => renderRow(data.user));
+  inputs.forEach((input) => {
+    input.value = "";
+  });
+}
+
+const loginObj = {};
+function handleLogin() {
+  const inputs = document.querySelectorAll("input");
+  inputs.forEach((input) => {
+    if (input.name != "username") {
+      loginObj[input.name] = input.value;
+    }
+  });
+  if (loginObj.email === "" || loginObj.password === "") {
+    alert("Password and email are required!");
+    return;
+  }
+
+  fetch("http://localhost:3000/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(loginObj),
+  })
+    .then((res) => {
+      if (res.ok) {
+        window.location.href =
+          "http://127.0.0.1:5500/frontend/dashboard/dashboard.html";
+      }
+      return res.json();
+    })
+    .then((data) => {
+      localStorage.setItem("token", data.token);
+    });
+
+  inputs.forEach((input) => {
+    input.value = "";
+  });
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  if (isLogin) {
+    handleLogin();
+  } else {
+    handleSignup();
+  }
 }
 
 const submitButton = document.createElement("button");
 submitButton.type = "submit";
-submitButton.textContent = "Submit";
+submitButton.textContent = headings[0];
 submitButton.classList.add("button");
 
 form.appendChild(submitButton);
