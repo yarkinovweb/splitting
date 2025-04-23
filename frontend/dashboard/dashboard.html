@@ -3,12 +3,183 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Task Management Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
-    <p>This is dashboard</p>
-    <button id="back">Back</button>
-    <button id="forward">Forward</button>
+    <div class="dashboard">
+      <!-- Left Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <div class="logo-icon">B</div>
+            <span class="logo-text">Brees</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item">
+            <i class="fas fa-layer-group"></i>
+            <span>Projects</span>
+            <i class="fas fa-chevron-down arrow"></i>
+          </button>
+          <button class="nav-item">
+            <i class="fas fa-check-square"></i>
+            <span>Tasks</span>
+            <span class="badge">10</span>
+          </button>
+          <button class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Users</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="theme-toggle">
+            <button id="theme-toggle-btn">
+              <i class="fas fa-sun"></i>
+            </button>
+          </div>
+          <div class="user-profile">
+            <div class="avatar">D</div>
+            <div class="user-info">
+              <p class="user-name">Donye</p>
+              <p class="user-email">collins@brees.com</p>
+            </div>
+            <button class="more-btn">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Top Navigation -->
+        <header class="top-nav">
+          <div class="view-options">
+            <button class="view-option active">
+              <i class="fas fa-th-large"></i>
+              <span>Board</span>
+            </button>
+            <button class="view-option">
+              <i class="fas fa-list"></i>
+              <span>List</span>
+            </button>
+            <button class="view-option">
+              <i class="fas fa-calendar"></i>
+              <span>Calendar</span>
+            </button>
+          </div>
+
+          <div class="top-nav-actions">
+            <div class="search-container">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" placeholder="Search" class="search-input" />
+            </div>
+            <button class="icon-btn">
+              <i class="fas fa-bell"></i>
+            </button>
+            <button class="icon-btn">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </header>
+
+        <!-- Task Board -->
+        <main class="task-board">
+          <div class="board-header">
+            <h1>My Tasks</h1>
+            <div class="board-actions">
+              <button class="icon-btn bordered">
+                <i class="fas fa-cog"></i>
+              </button>
+              <button class="icon-btn bordered">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+              <button class="new-task-btn">
+                <i class="fas fa-plus"></i>
+                <span>New Task</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="board-columns">
+            <!-- To Do Column -->
+            <div class="column" id="todo">
+              <div class="column-header">
+                <h3>To do</h3>
+                <div class="column-actions">
+                  <button class="icon-btn small">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <button class="icon-btn small">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="column-content" id="todo-content">
+                <!-- Task cards will be added here by JavaScript -->
+              </div>
+            </div>
+
+            <!-- In Progress Column -->
+            <div class="column" id="inprogress">
+              <div class="column-header">
+                <div class="column-title">
+                  <h3>In progress</h3>
+                  <span class="column-count">4</span>
+                </div>
+                <div class="column-actions">
+                  <button class="icon-btn small">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <button class="icon-btn small">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="column-content" id="inprogress-content">
+                <!-- Task cards will be added here by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Completed Column -->
+            <div class="column" id="completed">
+              <div class="column-header">
+                <div class="column-title">
+                  <h3>Completed</h3>
+                  <span class="column-count">2</span>
+                </div>
+                <div class="column-actions">
+                  <button class="icon-btn small">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <button class="icon-btn small">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="column-content" id="completed-content">
+                <!-- Task cards will be added here by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
     <script src="dashboard.js"></script>
   </body>
 </html>

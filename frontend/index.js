@@ -105,7 +105,7 @@ function handleSignup() {
     alert("Username, password and email are required!");
     return;
   }
-  fetch("http://localhost:3000/api/register", {
+  fetch("http://localhost:3000/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function handleLogin() {
     return;
   }
 
-  fetch("http://localhost:3000/api/login", {
+  fetch("http://localhost:3000/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -176,7 +176,7 @@ form.appendChild(toggleButton);
 document.body.appendChild(form);
 
 function getAllUsers() {
-  fetch("http://localhost:3000/api/users", {
+  fetch("http://localhost:3000/auth/users", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -184,6 +184,7 @@ function getAllUsers() {
   })
     .then((res) => res.json())
     .then((data) => {
+      // need to exclude id from each user to show on dashaboard->users
       createTbody(data);
     });
 }

@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
-
-const users = [];
+const users = require("../config/database");
+const { v4: uuidv4 } = require("uuid");
 
 exports.register = (username, email, password) => {
   let newUser = {
-    // id: Math.random(),
+    id: uuidv4(),
     username,
     email,
     password,
