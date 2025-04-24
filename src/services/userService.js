@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const users = require("../config/database");
+const { users } = require("../config/database");
 const { v4: uuidv4 } = require("uuid");
 
 exports.register = (username, email, password) => {
