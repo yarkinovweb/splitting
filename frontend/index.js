@@ -115,7 +115,7 @@ function handleSignup() {
     .then((res) => {
       return res.json();
     })
-    .then((data) => renderRow(data.user));
+    .then((data) => alert(data.message));
   inputs.forEach((input) => {
     input.value = "";
   });
@@ -150,6 +150,7 @@ function handleLogin() {
     })
     .then((data) => {
       localStorage.setItem("token", data.token);
+      localStorage.setItem("id", data.id);
     });
 
   inputs.forEach((input) => {
@@ -175,64 +176,63 @@ form.appendChild(submitButton);
 form.appendChild(toggleButton);
 document.body.appendChild(form);
 
-function getAllUsers() {
-  fetch("http://localhost:3000/auth/users", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      // need to exclude id from each user to show on dashaboard->users
-      createTbody(data);
-    });
-}
+// function getAllUsers() {
+//   fetch("http://localhost:3000/auth/users", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       createTbody(data);
+//     });
+// }
 
-getAllUsers();
+// getAllUsers();
 
-const table = document.createElement("table");
-table.style.border = "1px solid black";
-table.style.borderCollapse = "collapse";
+// const table = document.createElement("table");
+// table.style.border = "1px solid black";
+// table.style.borderCollapse = "collapse";
 
-const thead = document.createElement("thead");
-const tbody = document.createElement("tbody");
+// const thead = document.createElement("thead");
+// const tbody = document.createElement("tbody");
 
-function createThead() {
-  const tr = document.createElement("tr");
-  tr.style.border = "1px solid black";
-  thead.appendChild(tr);
+// function createThead() {
+//   const tr = document.createElement("tr");
+//   tr.style.border = "1px solid black";
+//   thead.appendChild(tr);
 
-  labels.forEach((label) => {
-    let th = document.createElement("th");
-    th.style.border = "1px solid black";
-    th.textContent = label;
-    tr.appendChild(th);
-  });
+//   labels.forEach((label) => {
+//     let th = document.createElement("th");
+//     th.style.border = "1px solid black";
+//     th.textContent = label;
+//     tr.appendChild(th);
+//   });
 
-  table.appendChild(thead);
-}
+//   table.appendChild(thead);
+// }
 
-function renderRow(user) {
-  const tr = document.createElement("tr");
-  tr.style.border = "1px solid black";
+// function renderRow(user) {
+//   const tr = document.createElement("tr");
+//   tr.style.border = "1px solid black";
 
-  Object.values(user).forEach((value) => {
-    let td = document.createElement("td");
-    td.style.border = "1px solid black";
-    td.textContent = value;
-    tr.appendChild(td);
-  });
+//   Object.values(user).forEach((value) => {
+//     let td = document.createElement("td");
+//     td.style.border = "1px solid black";
+//     td.textContent = value;
+//     tr.appendChild(td);
+//   });
 
-  tbody.appendChild(tr);
-}
+//   tbody.appendChild(tr);
+// }
 
-function createTbody(users) {
-  users.forEach((user) => {
-    renderRow(user);
-  });
-  table.appendChild(tbody);
-}
+// function createTbody(users) {
+//   users.forEach((user) => {
+//     renderRow(user);
+//   });
+//   table.appendChild(tbody);
+// }
 
-document.body.appendChild(table);
-createThead();
+// document.body.appendChild(table);
+// createThead();

@@ -8,6 +8,8 @@ exports.register = (username, email, password) => {
     username,
     email,
     password,
+    participatedProjects: [],
+    ownedProjects: [],
   };
   users.push(newUser);
   return { ...newUser };
@@ -22,10 +24,19 @@ exports.login = (email, password) => {
   if (!foundUser) {
     return null;
   }
+
   const token = jwt.sign(foundUser, secret_key, { expiresIn: "1h" });
-  return token;
+  return { token, id: foundUser.id };
 };
 
 exports.getAllUsers = () => {
   return users;
+};
+
+exports.getUserById = (id) => {
+  const user = users.find((user) => user.id === id);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  return { ...user };
 };

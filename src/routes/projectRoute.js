@@ -14,4 +14,6 @@ router.post("/:id", projectController.updateProject);
 // // Get all projects
 router.get("/", projectController.getProjects);
 
+router.post("/:projectId/:memberID", projectController.addMemberToProject);
+
 module.exports = router;

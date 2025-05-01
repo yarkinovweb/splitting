@@ -16,16 +16,27 @@ exports.login = (req, res) => {
   if (!email && !password) {
     return res.status(400).json({ message: "Email and password are required" });
   }
-  let token = userService.login(email, password);
+
+  const { token, id } = userService.login(email, password);
 
   if (!token) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
 
-  return res.status(202).json({ token, message: "Login successful!" });
+  return res.status(202).json({ token, id, message: "Login successful!" });
 };
 
 exports.getUsers = (req, res) => {
   const users = userService.getAllUsers();
   return res.status(200).json(users);
+};
+
+exports.getUser = (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = userService.getUserById(id);
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 };

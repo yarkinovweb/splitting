@@ -178,6 +178,7 @@ button {
     border-bottom: 1px solid #e5e9eb;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 16px;
 }
 

@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const { projects } = require("../config/database");
+const { users } = require("../config/database");
 
 exports.create = (title, description, status, ownerId, deadline, members) => {
   const project = {
@@ -9,33 +9,53 @@ exports.create = (title, description, status, ownerId, deadline, members) => {
     status,
     ownerId,
     deadline,
-    members,
+    members: [],
     createdAt: Date.now(),
     updateAt: Date.now(),
   };
-  projects.push(project);
+  const user = users.find((user) => user.id === ownerId);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  user.ownedProjects.push(project);
   return project;
 };
 
-exports.getProjectById = (id) => {
-  const foundProject = projects.find((project) => project.id === id);
+exports.getProjectById = (id, ownerId) => {
+  const user = users.find((user) => user.id === ownerId);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  const foundProject = user.ownedProjects.find((project) => project.id === id);
+
   if (!foundProject) {
     return null;
   }
+
   return foundProject;
 };
 
-exports.deleteProjectById = (id) => {
-  const projectIndex = projects.findIndex((project) => project.id === id);
+exports.deleteProjectById = (id, ownerId) => {
+  const user = users.find((user) => user.id === ownerId);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  const projectIndex = user.ownedProjects.findIndex(
+    (project) => project.id === id
+  );
   if (projectIndex === -1) {
     return null;
   }
-  projects.splice(projectIndex, 1);
+  user.ownedProjects.splice(projectIndex, 1);
   return true;
 };
 
-exports.getAllprojects = () => {
-  return projects;
+exports.getAllprojects = (ownerId) => {
+  const user = users.find((user) => user.id === ownerId);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+  return user.ownedProjects;
 };
 
 exports.updateProject = (
@@ -44,9 +64,15 @@ exports.updateProject = (
   description,
   status,
   deadline,
-  members
+  members,
+  ownerId
 ) => {
-  const projectIndex = projects.findIndex(
+  const user = users.find((user) => user.id === ownerId);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+
+  const projectIndex = user.ownedProjects.findIndex(
     (project) => project.id === projectId
   );
   if (projectIndex === -1) {
@@ -60,7 +86,30 @@ exports.updateProject = (
     members,
     updateAt: Date.now(),
   };
-  Object.assign(projects[projectIndex], updated);
-  projects[projectIndex] = updated;
+  Object.assign(user.ownedProjects[projectIndex], updated);
+  user.ownedProjects[projectIndex] = updated;
   return updated;
+};
+
+exports.addMember = (ownerId, projectId, memberID) => {
+  const user = users.find((user) => user.id === ownerId);
+  if (!user) {
+    throw new Error("User not found!");
+  }
+
+  const project = user.ownedProjects.find(
+    (project) => project.id === projectId
+  );
+  if (!project) {
+    throw new Error("Project not found!");
+  }
+
+  const member = users.find((user) => user.id === memberID);
+  if (!member) {
+    throw new Error("Member not found!");
+  }
+
+  member.participatedProjects.push(project);
+  project.members.push({ id: memberID });
+  return true;
 };

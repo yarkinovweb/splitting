@@ -3,6 +3,7 @@ const token = localStorage.getItem("token");
 if (!token) {
   window.location.href = "http://127.0.0.1:5500/frontend";
 }
+getUserInfo();
 
 // Task data
 const tasks = {
@@ -304,3 +305,22 @@ document
 
 // Initialize the board
 document.addEventListener("DOMContentLoaded", renderBoard);
+
+const username = document.querySelector(".user-name");
+const email = document.querySelector(".user-email");
+
+function getUserInfo() {
+  const userId = localStorage.getItem("id");
+
+  fetch(`http://localhost:3000/auth/users/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      username.textContent = data.username;
+      email.textContent = data.email;
+    });
+}
