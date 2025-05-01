@@ -36,7 +36,7 @@
             <span>Tasks</span>
             <span class="badge">10</span>
           </button>
-          <button class="nav-item">
+          <button id="users-btn" class="nav-item">
             <i class="fas fa-users"></i>
             <span>Users</span>
           </button>
@@ -82,7 +82,17 @@
 
         <!-- Task Board -->
         <main class="task-board">
-          <div class="board-header">
+         
+        </main>
+      </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
+
+
+  <!-- <div class="board-header">
             <h1>My Tasks</h1>
             <div class="board-actions">
               <button class="new-task-btn">
@@ -93,7 +103,7 @@
           </div>
 
           <div class="board-columns">
-            <!-- To Do Column -->
+            
             <div class="column" id="todo">
               <div class="column-header">
                 <h3>To do</h3>
@@ -108,11 +118,9 @@
               </div>
 
               <div class="column-content" id="todo-content">
-                <!-- Task cards will be added here by JavaScript -->
               </div>
             </div>
 
-            <!-- In Progress Column -->
             <div class="column" id="inprogress">
               <div class="column-header">
                 <div class="column-title">
@@ -130,11 +138,9 @@
               </div>
 
               <div class="column-content" id="inprogress-content">
-                <!-- Task cards will be added here by JavaScript -->
               </div>
             </div>
 
-            <!-- Completed Column -->
             <div class="column" id="completed">
               <div class="column-header">
                 <div class="column-title">
@@ -152,14 +158,6 @@
               </div>
 
               <div class="column-content" id="completed-content">
-                <!-- Task cards will be added here by JavaScript -->
               </div>
             </div>
           </div>
-        </main>
-      </div>
-    </div>
-
-    <script src="dashboard.js"></script>
-  </body>
-</html>

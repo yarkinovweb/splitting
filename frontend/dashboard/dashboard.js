@@ -324,3 +324,77 @@ function getUserInfo() {
       email.textContent = data.email;
     });
 }
+
+function getAllUsers() {
+  fetch("http://localhost:3000/auth/users", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      createTbody(data);
+    });
+}
+
+getAllUsers();
+
+const labels = ["Username", "Email", "Password"];
+
+const table = document.createElement("table");
+table.style.border = "1px solid black";
+table.style.borderCollapse = "collapse";
+
+const thead = document.createElement("thead");
+const tbody = document.createElement("tbody");
+
+function createThead() {
+  const tr = document.createElement("tr");
+  tr.style.border = "1px solid black";
+  thead.appendChild(tr);
+
+  labels.forEach((label) => {
+    let th = document.createElement("th");
+    th.style.border = "1px solid black";
+    th.textContent = label;
+    tr.appendChild(th);
+  });
+
+  table.appendChild(thead);
+}
+
+function renderRow(user) {
+  const tr = document.createElement("tr");
+  tr.style.border = "1px solid black";
+
+  Object.values(user).forEach((value) => {
+    let td = document.createElement("td");
+    td.style.border = "1px solid black";
+    td.textContent = value;
+    tr.appendChild(td);
+  });
+
+  tbody.appendChild(tr);
+}
+
+function createTbody(users) {
+  users.forEach((user) => {
+    renderRow({
+      username: user.username,
+      email: user.email,
+      password: user.password,
+    });
+  });
+  table.appendChild(tbody);
+}
+
+const main = document.querySelector(".task-board");
+
+const usersButton = document.getElementById("users-btn");
+
+usersButton.addEventListener("click", () => {
+  main.appendChild(table);
+});
+
+createThead();
